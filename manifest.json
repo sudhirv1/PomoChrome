@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "PomoChrome",
+    "description": "Pomodoro timer for Chrome",
+    "version": "1.0",
+    "action": {
+        "default_icon": {
+            "16": "TomatoTimer.png",
+            "48": "TomatoTimer.png",
+            "128": "TomatoTimer.png"
+        },
+        "default_popup": "popup.html"
+    }
+}
