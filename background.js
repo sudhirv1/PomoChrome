@@ -4,6 +4,7 @@ let minutes = 25;
 let seconds = 0;
 
 function startTimer() {
+    console.log("start timer func");
     if (!isTimerRunning) {
         isTimerRunning = true;
         timer = setInterval(updateTimer, 1000);
@@ -11,11 +12,13 @@ function startTimer() {
 }
 
 function pauseTimer() {
+    console.log("pause timer func");
     clearInterval(timer);
     isTimerRunning = false;
 }
 
 function resetTimer() {
+    console.log("reset timer func");
     clearInterval(timer);
     isTimerRunning = false;
     minutes = 25;
@@ -24,6 +27,7 @@ function resetTimer() {
 }
 
 function updateTimer() {
+    console.log("update timer func");
     if (seconds > 0) {
         seconds--;
     } else if (minutes > 0) {
@@ -40,21 +44,30 @@ function updateTimer() {
         resetTimer();
     }
 
-    updateTimerDisplay();
+    chrome.runtime.sendMessage({
+        action: "updateTimerDisplay",
+        timerData: { minutes, seconds },
+    });
 }
 
 function updateTimerDisplay() {
-  // Code to update the timer display in the popup (popup.html)
-  // You can use DOM manipulation here.
+    console.log("updateTimerDisplay in background");
+    chrome.runtime.sendMessage({
+        action: "updateTimerDisplay",
+        timerData: { minutes, seconds },
+    });
 }
 
 // Listen for messages from the popup (popup.html)
 chrome.runtime.onMessage.addListener((message) => {
     if (message === "start") {
+        console.log('Start PRESSED');
     startTimer();
     } else if (message === "pause") {
+        console.log("Pause PRESSED");
     pauseTimer();
     } else if (message === "reset") {
+        console.log("Reset PRESSED");
     resetTimer();
     }
 });

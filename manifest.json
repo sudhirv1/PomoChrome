@@ -10,5 +10,17 @@
             "128": "TomatoTimer.png"
         },
         "default_popup": "popup.html"
+    },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://www.google.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
     }
 }
