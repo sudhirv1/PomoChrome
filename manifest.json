@@ -15,7 +15,8 @@
         "storage",
         "activeTab",
         "scripting",
-        "tabs"
+        "tabs",
+        "notifications"
     ],
     "host_permissions": [
         "https://www.google.com/*"

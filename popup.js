@@ -1,4 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const numberInput = document.getElementById("number-input");
+    const increaseButton = document.getElementById("increase-button");
+    const decreaseButton = document.getElementById("decrease-button");
+    const selectedNumberSpan = document.getElementById("selected-number");
+
+    function updateSelectedNumber(number) {
+        selectedNumberSpan.textContent = number;
+    }
+    function sendSelectedNumberToBackground(number) {
+        chrome.runtime.sendMessage({ action: "updateSelectedNumber", number });
+    }
+    numberInput.addEventListener("input", function () {
+        const selectedNumber = parseInt(numberInput.value);
+        updateSelectedNumber(selectedNumber);
+        sendSelectedNumberToBackground(selectedNumber);
+    });
+
+    // Add event listeners for the spinner buttons
+    increaseButton.addEventListener("click", function () {
+        numberInput.stepUp();
+        const selectedNumber = parseInt(numberInput.value);
+        updateSelectedNumber(selectedNumber);
+        sendSelectedNumberToBackground(selectedNumber);
+    });
+
+    decreaseButton.addEventListener("click", function () {
+        numberInput.stepDown();
+        const selectedNumber = parseInt(numberInput.value);
+        updateSelectedNumber(selectedNumber);
+        sendSelectedNumberToBackground(selectedNumber);
+    });
+    chrome.runtime.sendMessage(
+        { action: "getSelectedNumber" },
+        function (response) {
+            if (response && response.number) {
+            numberInput.value = response.number;
+            updateSelectedNumber(response.number);
+            }
+        }
+    );
+    /////////////////////
     document.getElementById("start-button").addEventListener("click", () => {
         chrome.runtime.sendMessage("start");
     });
