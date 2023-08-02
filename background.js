@@ -2,7 +2,7 @@ let timer;
 let isTimerRunning = false;
 let minutes = 25;
 let seconds = 0;
-let selectedNumber = 1
+let resetMins = minutes;
 
 function startTimer() {
     console.log("start timer func");
@@ -22,7 +22,7 @@ function resetTimer() {
     console.log("reset timer func");
     clearInterval(timer);
     isTimerRunning = false;
-    minutes = 1;
+    minutes = resetMins;
     seconds = 0;
     updateTimerDisplay();
 }
@@ -38,7 +38,7 @@ function updateTimer() {
         // Timer has reached zero, show notification
         chrome.notifications.create({
         type: "basic",
-        iconUrl: "TomatoTimer_128.png",
+        iconUrl: "TomatoTimer.png",
         title: "Times Up!",
         message: "Pomodoro session complete!",
         });
@@ -71,22 +71,19 @@ chrome.runtime.onMessage.addListener((message) => {
         console.log("Reset PRESSED");
         resetTimer();
     }
-    else if (message === "increasePeriod") {
-        console.log("Period time increase button pressed");
-        numberInput.stepUp();
-        updateSelectedNumber();
-    }
 });
 
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.action === "updateSelectedNumber" && message.number) {
         // Update the selectedNumber variable when the popup sends a new value
-        selectedNumber = message.number;
+        minutes = message.number;
+        resetMins = minutes;
+        updateTimerDisplay();
         // Respond to the popup to acknowledge the update
         sendResponse({ success: true });
     } else if (message.action === "getSelectedNumber") {
         // Send the current selected number to the popup when requested
-        sendResponse({ number: selectedNumber });
+        sendResponse({ number: minutes });
     }
 });

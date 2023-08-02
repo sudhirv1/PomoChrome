@@ -1,6 +1,21 @@
-body {
+/* body {
     background-color: rgb(197, 83, 83)
+} */
+.popup-container {
+    width: 250px; /* Adjust the width to your desired value */
+    padding: 10px; /* Add some padding to make it visually appealing */
+    background-color: rgb(197, 83, 83);
+    border: 1px solid #ccc; /* Optional: Add a border */
 }
+
+.container {
+    display: flex;
+    align-items: center; /* Vertically center the content within the flex container */
+    border: 2px solid #FFFFFF;
+    margin: 20px;
+    margin-left: 0;
+}
+
 h1{
     color:black
 }
